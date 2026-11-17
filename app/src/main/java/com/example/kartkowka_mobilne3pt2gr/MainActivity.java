@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewLiczba3;
     private Button buttonPlus3;
 
+    private int wylosowana = 0;
     private int liczba1 = 1;
     private int liczba2 = 1;
     private int liczba3 = 1;
@@ -57,8 +59,22 @@ public class MainActivity extends AppCompatActivity {
         textViewLiczba3 = findViewById(R.id.textView4);
         buttonPlus3 = findViewById(R.id.button10);
 
+        if (savedInstanceState != null) {
+            wylosowana = savedInstanceState.getInt("WYLOSOWANA", 0);
+            textViewWylosowana.setText(String.valueOf(wylosowana));
+
+            liczba1 = savedInstanceState.getInt("LICZBA1", 0);
+            textViewLiczba1.setText(String.valueOf(liczba1));
+
+            liczba2 = savedInstanceState.getInt("LICZBA2", 0);
+            textViewLiczba2.setText(String.valueOf(liczba2));
+
+            liczba3 = savedInstanceState.getInt("LICZBA3", 0);
+            textViewLiczba3.setText(String.valueOf(liczba3));
+        }
+
         buttonLosuj.setOnClickListener(view -> {
-            int wylosowana = random.nextInt(1,11);
+            wylosowana = random.nextInt(1,11);
             textViewWylosowana.setText(String.valueOf(wylosowana));
 
             if (liczba1 == wylosowana) {
@@ -115,5 +131,14 @@ public class MainActivity extends AppCompatActivity {
             liczba3++;
             textViewLiczba3.setText(String.valueOf(liczba3));
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("WYLOSOWANA", wylosowana);
+        outState.putInt("LICZBA1", liczba1);
+        outState.putInt("LICZBA2", liczba2);
+        outState.putInt("LICZBA3", liczba3);
     }
 }
